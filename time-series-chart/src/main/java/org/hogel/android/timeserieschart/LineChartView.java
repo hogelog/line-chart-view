@@ -1,9 +1,10 @@
 package org.hogel.android.timeserieschart;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.*;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.Shape;
 import android.view.View;
 
 import java.util.Date;
@@ -46,6 +47,9 @@ public class LineChartView extends View {
 
     private final List<Point> points;
     private final Paint paint = new Paint();
+    private final ShapeDrawable shapeDrawable;
+    private final ShapeDrawable chartDrawable;
+    private Shape chartShape;
 
     private int lineColor = Color.RED;
     private float lineWidth = 8.0f;
@@ -57,34 +61,65 @@ public class LineChartView extends View {
     private int gridColor = Color.GRAY;
     private float gridWidth = 2.0f;
 
-    private int canvasWidth;
-    private int canvasHeight;
-
     public LineChartView(Context context, List<Point> points) {
         super(context);
         this.points = points;
         paint.setAntiAlias(true);
+        shapeDrawable = new ShapeDrawable();
+        chartDrawable = new ShapeDrawable();
+        updateDrawables();
+    }
+
+    private void updateDrawables() {
+        shapeDrawable.setShape(new OvalShape());
+        drawLineChart(chartDrawable);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
-        canvasWidth = canvas.getWidth();
-        canvasHeight = canvas.getHeight();
+        chartDrawable.draw(canvas);
+        canvas.save();
+        Rect labelsArea = drawLabels(canvas);
+        canvas.clipRect(labelsArea, Region.Op.REPLACE);
+        canvas.restore();
+    }
 
-        long minX = getMinX();
-        long maxX = getMaxX();
-        long xrange = maxX - minX;
+    private Rect drawLabels(Canvas canvas) {
+//        canvasWidth = canvas.getWidth();
+//        canvasHeight = canvas.getHeight();
 
-        long minY = getMinY();
-        long maxY = getMaxY();
-        long yrange = maxY - minY;
+//        drawYLabels(canvas);
+        Rect labelsArea = new Rect();
+//        labelsArea.set(50, 0, canvasWidth, canvasHeight - 50);
+        return labelsArea;
+    }
 
-        drawVerticalGrid(canvas, minX, xrange);
-        drawHorizontalGrid(canvas, minY, yrange);
+    private void drawYLabels(Canvas canvas) {
+    }
 
-        drawLines(canvas, minX, xrange, minY, yrange);
-        drawPoints(canvas, minX, xrange, minY, yrange);
+    private void drawLineChart(ShapeDrawable chartDrawable) {
+        chartShape = new Shape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint) {
+                canvas.drawColor(Color.WHITE);
+
+                long minX = getMinX();
+                long maxX = getMaxX();
+                long xrange = maxX - minX;
+
+                long minY = getMinY();
+                long maxY = getMaxY();
+                long yrange = maxY - minY;
+
+                drawXGrid(canvas, minX, xrange);
+                drawYGrid(canvas, minY, yrange);
+
+                drawLines(canvas, minX, xrange, minY, yrange);
+                drawPoints(canvas, minX, xrange, minY, yrange);
+            }
+        };
+        chartDrawable.setBounds(0, 0, getWidth(), getHeight());
+        chartDrawable.setShape(chartShape);
     }
 
     protected long getMinX() {
@@ -103,11 +138,11 @@ public class LineChartView extends View {
         return points.get(points.size() - 1).getDate().getTime();
     }
 
-    protected float getXCoordinate(Point point, long minX, long xrange) {
-        return getXCoordinate(point.getDate().getTime(), minX, xrange);
+    protected float getXCoordinate(int canvasWidth, Point point, long minX, long xrange) {
+        return getXCoordinate(canvasWidth, point.getDate().getTime(), minX, xrange);
     }
 
-    protected float getXCoordinate(long time, long minX, long xrange) {
+    protected float getXCoordinate(int canvasWidth, long time, long minX, long xrange) {
         return canvasWidth * (time - minX) * 1.0f / xrange;
     }
 
@@ -137,39 +172,45 @@ public class LineChartView extends View {
         return (long) Math.pow(10, digits - 1);
     }
 
-    protected float getYCoordinate(Point point, long minY, long yrange) {
+    protected float getYCoordinate(int canvasHeight, Point point, long minY, long yrange) {
         return canvasHeight * (1.0f - (point.getValue() - minY) * 1.0f / yrange);
     }
 
-    protected float getYCoordinate(long value, long minY, long yrange) {
+    protected float getYCoordinate(int canvasHeight, long value, long minY, long yrange) {
         return canvasHeight * (1.0f - (value - minY) * 1.0f / yrange);
     }
 
-    private void drawVerticalGrid(Canvas canvas, long minX, long xrange) {
+    private void drawXGrid(Canvas canvas, long minX, long xrange) {
         long minDateTime = getMinDateTime();
         long maxDateTime = getMaxDateTime();
         long gridDatetime = minDateTime;
 
+        int canvasWidth = canvas.getWidth();
+        int canvasHeight = canvas.getHeight();
+
         paint.setColor(gridColor);
         paint.setStrokeWidth(gridWidth);
         while (gridDatetime <= maxDateTime) {
-            float x = getXCoordinate(gridDatetime, minX, xrange);
+            float x = getXCoordinate(canvasWidth, gridDatetime, minX, xrange);
             canvas.drawLine(x, 0.0f, x, canvasHeight, paint);
             gridDatetime += A_DAY;
         }
     }
 
-    private void drawHorizontalGrid(Canvas canvas, long minY, long yrange) {
+    private void drawYGrid(Canvas canvas, long minY, long yrange) {
         long maxValue = getMaxValue();
         long ystep = getYStep(maxValue);
         long maxY = getMaxY();
         long gridValue = 0;
         long gridStep = ystep >= 10 ? ystep / 2 : ystep;
 
+        int canvasWidth = canvas.getWidth();
+        int canvasHeight = canvas.getHeight();
+
         paint.setColor(gridColor);
         paint.setStrokeWidth(gridWidth);
         while (gridValue < maxY) {
-            float y = getYCoordinate(gridValue, minY, yrange);
+            float y = getYCoordinate(canvasHeight, gridValue, minY, yrange);
             canvas.drawLine(0.0f, y, canvasWidth, y, paint);
             gridValue += gridStep;
         }
@@ -179,11 +220,14 @@ public class LineChartView extends View {
         Point prevPoint = null;
         float px = 0.0f, py = 0.0f;
 
+        int canvasWidth = canvas.getWidth();
+        int canvasHeight = canvas.getHeight();
+
         paint.setColor(lineColor);
         paint.setStrokeWidth(lineWidth);
         for (Point point : points) {
-            float x = getXCoordinate(point, minX, xrange);
-            float y = getYCoordinate(point, minY, yrange);
+            float x = getXCoordinate(canvasWidth, point, minX, xrange);
+            float y = getYCoordinate(canvasHeight, point, minY, yrange);
             if (prevPoint != null) {
                 canvas.drawLine(px, py, x, y, paint);
             }
@@ -194,9 +238,12 @@ public class LineChartView extends View {
     }
 
     private void drawPoints(Canvas canvas, long minX, long xrange, long minY, long yrange) {
+        int canvasWidth = canvas.getWidth();
+        int canvasHeight = canvas.getHeight();
+
         for (Point point : points) {
-            float x = getXCoordinate(point, minX, xrange);
-            float y = getYCoordinate(point, minY, yrange);
+            float x = getXCoordinate(canvasWidth, point, minX, xrange);
+            float y = getYCoordinate(canvasHeight, point, minY, yrange);
             paint.setColor(pointColor);
             canvas.drawCircle(x, y, pointSize, paint);
             paint.setColor(Color.WHITE);
