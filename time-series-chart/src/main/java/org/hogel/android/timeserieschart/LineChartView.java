@@ -1,9 +1,11 @@
 package org.hogel.android.timeserieschart;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Region;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.Shape;
 import android.view.View;
 
@@ -47,31 +49,24 @@ public class LineChartView extends View {
 
     private final List<Point> points;
     private final Paint paint = new Paint();
-    private final ShapeDrawable shapeDrawable;
     private final ShapeDrawable chartDrawable;
-    private Shape chartShape;
 
-    private int lineColor = Color.RED;
-    private float lineWidth = 8.0f;
-
-    private int pointColor = Color.RED;
-    private float pointSize = 10.0f;
-    private float pointCenterSize = 5.0f;
-
-    private int gridColor = Color.GRAY;
-    private float gridWidth = 2.0f;
+    private final LineChartStyle lineChartStyle;
 
     public LineChartView(Context context, List<Point> points) {
+        this(context, points, new LineChartStyle());
+    }
+
+    public LineChartView(Context context, List<Point> points, LineChartStyle lineChartStyle) {
         super(context);
         this.points = points;
+        this.lineChartStyle = lineChartStyle;
         paint.setAntiAlias(true);
-        shapeDrawable = new ShapeDrawable();
         chartDrawable = new ShapeDrawable();
         updateDrawables();
     }
 
-    private void updateDrawables() {
-        shapeDrawable.setShape(new OvalShape());
+    public void updateDrawables() {
         drawLineChart(chartDrawable);
     }
 
@@ -98,10 +93,10 @@ public class LineChartView extends View {
     }
 
     private void drawLineChart(ShapeDrawable chartDrawable) {
-        chartShape = new Shape() {
+        Shape chartShape = new Shape() {
             @Override
             public void draw(Canvas canvas, Paint paint) {
-                canvas.drawColor(Color.WHITE);
+                canvas.drawColor(lineChartStyle.getBackgroundColor());
 
                 long minX = getMinX();
                 long maxX = getMaxX();
@@ -115,7 +110,10 @@ public class LineChartView extends View {
                 drawYGrid(canvas, minY, yrange);
 
                 drawLines(canvas, minX, xrange, minY, yrange);
-                drawPoints(canvas, minX, xrange, minY, yrange);
+
+                if (lineChartStyle.isDrawPoint()) {
+                    drawPoints(canvas, minX, xrange, minY, yrange);
+                }
             }
         };
         chartDrawable.setBounds(0, 0, getWidth(), getHeight());
@@ -188,8 +186,8 @@ public class LineChartView extends View {
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
 
-        paint.setColor(gridColor);
-        paint.setStrokeWidth(gridWidth);
+        paint.setColor(lineChartStyle.getGridColor());
+        paint.setStrokeWidth(lineChartStyle.getGridWidth());
         while (gridDatetime <= maxDateTime) {
             float x = getXCoordinate(canvasWidth, gridDatetime, minX, xrange);
             canvas.drawLine(x, 0.0f, x, canvasHeight, paint);
@@ -207,8 +205,8 @@ public class LineChartView extends View {
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
 
-        paint.setColor(gridColor);
-        paint.setStrokeWidth(gridWidth);
+        paint.setColor(lineChartStyle.getGridColor());
+        paint.setStrokeWidth(lineChartStyle.getGridWidth());
         while (gridValue < maxY) {
             float y = getYCoordinate(canvasHeight, gridValue, minY, yrange);
             canvas.drawLine(0.0f, y, canvasWidth, y, paint);
@@ -223,8 +221,8 @@ public class LineChartView extends View {
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
 
-        paint.setColor(lineColor);
-        paint.setStrokeWidth(lineWidth);
+        paint.setColor(lineChartStyle.getLineColor());
+        paint.setStrokeWidth(lineChartStyle.getLineWidth());
         for (Point point : points) {
             float x = getXCoordinate(canvasWidth, point, minX, xrange);
             float y = getYCoordinate(canvasHeight, point, minY, yrange);
@@ -244,10 +242,14 @@ public class LineChartView extends View {
         for (Point point : points) {
             float x = getXCoordinate(canvasWidth, point, minX, xrange);
             float y = getYCoordinate(canvasHeight, point, minY, yrange);
-            paint.setColor(pointColor);
-            canvas.drawCircle(x, y, pointSize, paint);
-            paint.setColor(Color.WHITE);
-            canvas.drawCircle(x, y, pointCenterSize, paint);
+
+            paint.setColor(lineChartStyle.getLineColor());
+            canvas.drawCircle(x, y, lineChartStyle.getPointSize(), paint);
+
+            if (lineChartStyle.isDrawPointCenter()) {
+                paint.setColor(lineChartStyle.getBackgroundColor());
+                canvas.drawCircle(x, y, lineChartStyle.getPointCenterSize(), paint);
+            }
         }
     }
 }

@@ -2,8 +2,8 @@ package org.hogel.android.timeserieschartdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
+import org.hogel.android.timeserieschart.LineChartStyle;
 import org.hogel.android.timeserieschart.LineChartView;
 
 import java.text.DateFormat;
@@ -21,7 +21,9 @@ public class MainActivity extends Activity {
 
         ViewGroup chartContainer = (ViewGroup) findViewById(R.id.chart_container);
 
-        View chartView = new LineChartView(this, generatePoints());
+        LineChartStyle lineChartStyle = new LineChartStyle();
+        lineChartStyle.setDrawPointCenter(false);
+        LineChartView chartView = new LineChartView(this, generatePoints(), lineChartStyle);
         chartContainer.addView(chartView);
     }
 
