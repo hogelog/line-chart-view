@@ -48,10 +48,16 @@ public class LineChartView extends View {
     }
 
     private final List<Point> points;
+
     private final Paint paint = new Paint();
+
     private final ShapeDrawable chartDrawable;
 
     private final LineChartStyle lineChartStyle;
+
+    private Long manualXGridUnit;
+
+    private Long manualYGridUnit = null;
 
     public LineChartView(Context context, List<Point> points) {
         this(context, points, new LineChartStyle());
@@ -62,6 +68,10 @@ public class LineChartView extends View {
         this.points = points;
         this.lineChartStyle = lineChartStyle;
         paint.setAntiAlias(true);
+
+//        verticalLabelDrawable = new ShapeDrawable();
+//        horizontalLabelDrawable = new ShapeDrawable();
+
         chartDrawable = new ShapeDrawable();
         updateDrawables();
     }
@@ -182,25 +192,26 @@ public class LineChartView extends View {
         long minDateTime = getMinDateTime();
         long maxDateTime = getMaxDateTime();
         long gridDatetime = minDateTime;
+        long xGridUnit = getXGridUnit();
 
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
 
         paint.setColor(lineChartStyle.getGridColor());
         paint.setStrokeWidth(lineChartStyle.getGridWidth());
+
         while (gridDatetime <= maxDateTime) {
             float x = getXCoordinate(canvasWidth, gridDatetime, minX, xrange);
             canvas.drawLine(x, 0.0f, x, canvasHeight, paint);
-            gridDatetime += A_DAY;
+            gridDatetime += xGridUnit;
         }
     }
 
     private void drawYGrid(Canvas canvas, long minY, long yrange) {
         long maxValue = getMaxValue();
-        long ystep = getYStep(maxValue);
+        long yGridUnit = getYGridUnit(maxValue);
         long maxY = getMaxY();
         long gridValue = 0;
-        long gridStep = ystep >= 10 ? ystep / 2 : ystep;
 
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
@@ -210,7 +221,7 @@ public class LineChartView extends View {
         while (gridValue < maxY) {
             float y = getYCoordinate(canvasHeight, gridValue, minY, yrange);
             canvas.drawLine(0.0f, y, canvasWidth, y, paint);
-            gridValue += gridStep;
+            gridValue += yGridUnit;
         }
     }
 
@@ -251,5 +262,30 @@ public class LineChartView extends View {
                 canvas.drawCircle(x, y, lineChartStyle.getPointCenterSize(), paint);
             }
         }
+    }
+
+    public void setXGridUnit(long xGridUnit) {
+        manualXGridUnit = xGridUnit;
+        updateDrawables();
+    }
+
+    public long getXGridUnit() {
+        if (manualXGridUnit != null) {
+            return manualXGridUnit;
+        }
+        return A_DAY;
+    }
+
+    public void setYGridUnit(long yGridUnit) {
+        manualYGridUnit = yGridUnit;
+        updateDrawables();
+    }
+
+    public long getYGridUnit(long maxValue) {
+        if (manualYGridUnit != null) {
+            return manualYGridUnit;
+        }
+        final long yStep = getYStep(maxValue);
+        return yStep >= 10 ? yStep / 2 : yStep;
     }
 }

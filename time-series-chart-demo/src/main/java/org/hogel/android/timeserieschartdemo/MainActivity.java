@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
         LineChartView chartView = new LineChartView(this, generatePoints(), lineChartStyle);
+        chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
         chartContainer.addView(chartView);
     }
 
@@ -37,6 +38,10 @@ public class MainActivity extends Activity {
             points.add(new LineChartView.Point(dateFormat.parse("2014/07/05"), 1100));
             points.add(new LineChartView.Point(dateFormat.parse("2014/07/06"), 700));
             points.add(new LineChartView.Point(dateFormat.parse("2014/07/08"), 1700));
+            points.add(new LineChartView.Point(dateFormat.parse("2014/07/09"), 2700));
+            points.add(new LineChartView.Point(dateFormat.parse("2014/07/10"), 100));
+            points.add(new LineChartView.Point(dateFormat.parse("2014/07/11"), 1200));
+            points.add(new LineChartView.Point(dateFormat.parse("2014/07/12"), 1100));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
