@@ -70,6 +70,10 @@ public class LineChartView extends View {
 
     protected long chartRightMargin = 0;
 
+    protected List<Long> manualXLabels = null;
+
+    private List<Long> manualYLabels = null;
+
     public LineChartView(Context context, List<Point> points) {
         this(context, points, new LineChartStyle());
     }
@@ -110,17 +114,25 @@ public class LineChartView extends View {
 
                 long minY = getMinY();
                 long maxY = getMaxY();
-                long yGridUnit = getYGridUnit();
                 long yrange = maxY - minY;
 
-                long y = minY;
                 int canvasHeight = canvas.getHeight();
 
-                while (y <= maxY) {
-                    String label = formatYLabel(y);
-                    float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
-                    canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
-                    y += yGridUnit;
+                if (manualYLabels != null) {
+                    for (long y : manualYLabels) {
+                        String label = formatYLabel(y);
+                        float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
+                        canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
+                    }
+                } else {
+                    long yGridUnit = getYGridUnit();
+                    long y = minY;
+                    while (y <= maxY) {
+                        String label = formatYLabel(y);
+                        float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
+                        canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
+                        y += yGridUnit;
+                    }
                 }
             }
         };
@@ -174,15 +186,23 @@ public class LineChartView extends View {
                 long xGridUnit = getXGridUnit();
                 long xrange = maxX - minX;
 
-                long x = getRawMinX();
                 int canvasWidth = canvas.getWidth();
                 int canvasHeight = canvas.getHeight();
 
-                while (x <= maxX) {
-                    String label = formatXLabel(x);
-                    float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
-                    canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
-                    x += xGridUnit;
+                if (manualXLabels != null) {
+                    for (long x : manualXLabels) {
+                        String label = formatXLabel(x);
+                        float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
+                        canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
+                    }
+                } else {
+                    long x = getRawMinX();
+                    while (x <= maxX) {
+                        String label = formatXLabel(x);
+                        float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
+                        canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
+                        x += xGridUnit;
+                    }
                 }
             }
         };
@@ -491,5 +511,15 @@ public class LineChartView extends View {
         long rawMaxY = getRawMaxY();
         final long yStep = getStep(rawMaxY);
         return yStep >= 10 ? yStep / 2 : yStep;
+    }
+
+    public void setXLabels(List<Long> labels) {
+        manualXLabels = labels;
+        updateDrawables();
+    }
+
+    public void setYLabels(List<Long> labels) {
+        manualYLabels = labels;
+        updateDrawables();
     }
 }
