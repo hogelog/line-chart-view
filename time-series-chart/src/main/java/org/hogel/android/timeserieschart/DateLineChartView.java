@@ -53,6 +53,8 @@ public class DateLineChartView extends View {
 
     private final Paint labelPaint = new Paint();
 
+    private final Paint framePaint = new Paint();
+
     private final ShapeDrawable chartDrawable;
 
     private final ShapeDrawable yLabelDrawable;
@@ -236,19 +238,17 @@ public class DateLineChartView extends View {
 
                 int width = canvas.getWidth();
                 int height = canvas.getHeight();
-
                 float left = getChartLeftMargin();
                 float top = getChartTopMargin();
                 float right = width - getChartRightMargin();
                 float bottom = height - getChartBottomMargin();
 
-                canvas.save();
-                canvas.clipRect(left, top, right, bottom);
-                canvas.drawColor(lineChartStyle.getBackgroundColor());
-                canvas.restore();
+                drawChartFrame(canvas, left, top, right, bottom);
 
                 drawXGrid(canvas, minX, xrange);
                 drawYGrid(canvas, minY, yrange);
+
+                drawChartFrameBorder(canvas, left, top, right, bottom);
 
                 drawLines(canvas, minX, xrange, minY, yrange);
 
@@ -259,6 +259,32 @@ public class DateLineChartView extends View {
         };
         chartDrawable.setBounds(0, 0, getWidth(), getHeight());
         chartDrawable.setShape(chartShape);
+    }
+
+    private void drawChartFrame(Canvas canvas, float left, float top, float right, float bottom) {
+        canvas.save();
+        canvas.clipRect(left, top, right, bottom);
+        canvas.drawColor(lineChartStyle.getBackgroundColor());
+        canvas.restore();
+    }
+
+    private void drawChartFrameBorder(Canvas canvas, float left, float top, float right, float bottom) {
+        framePaint.setColor(lineChartStyle.getFrameBorderColor());
+        framePaint.setStrokeWidth(lineChartStyle.getFrameBorderWidth());
+
+        LineChartStyle.Border border = lineChartStyle.getFrameBorder();
+        if (border.left()) {
+            canvas.drawLine(left, top, left, bottom, framePaint);
+        }
+        if (border.top()) {
+            canvas.drawLine(left, top, right, top, framePaint);
+        }
+        if (border.right()) {
+            canvas.drawLine(right, top, right, bottom, framePaint);
+        }
+        if (border.bottom()) {
+            canvas.drawLine(left, bottom, right, bottom, framePaint);
+        }
     }
 
     private float getChartLeftMargin() {
@@ -384,7 +410,6 @@ public class DateLineChartView extends View {
         long rawMaxY = getRawMaxY();
         long yGridUnit = getYGridUnit(rawMaxY);
         long maxY = getMaxY();
-        long gridValue = 0;
 
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
@@ -394,10 +419,12 @@ public class DateLineChartView extends View {
 
         paint.setColor(lineChartStyle.getGridColor());
         paint.setStrokeWidth(lineChartStyle.getGridWidth());
-        while (gridValue <= maxY) {
-            float y = getYCoordinate(canvasHeight, gridValue, minY, yrange);
-            canvas.drawLine(left, y, right, y, paint);
-            gridValue += yGridUnit;
+
+        long y = 0;
+        while (y <= maxY) {
+            float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
+            canvas.drawLine(left, yCoordinate, right, yCoordinate, paint);
+            y += yGridUnit;
         }
     }
 

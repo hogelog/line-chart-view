@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
+        lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.ALL));
         DateLineChartView chartView = new DateLineChartView(this, generatePoints(), lineChartStyle);
         chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
         chartContainer.addView(chartView);

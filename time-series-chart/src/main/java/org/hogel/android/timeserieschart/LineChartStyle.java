@@ -3,6 +3,48 @@ package org.hogel.android.timeserieschart;
 import android.graphics.Color;
 
 public class LineChartStyle {
+
+    public static class Border {
+        public static final int LEFT = 1;
+
+        public static final int TOP = 2;
+
+        public static final int RIGHT = 4;
+
+        public static final int BOTTOM = 8;
+
+        public static final int ALL = LEFT | TOP | RIGHT | BOTTOM;
+
+        private int style;
+
+        public Border(int... values) {
+            style = 0;
+            for (int value : values) {
+                style |= value;
+            }
+        }
+
+        public boolean contains(int value) {
+            return (style & value) > 0;
+        }
+
+        public boolean left() {
+            return contains(LEFT);
+        }
+
+        public boolean top() {
+            return contains(TOP);
+        }
+
+        public boolean right() {
+            return contains(RIGHT);
+        }
+
+        public boolean bottom() {
+            return contains(BOTTOM);
+        }
+    }
+
     private int lineColor = Color.RED;
 
     private float lineWidth = 8.0f;
@@ -30,6 +72,12 @@ public class LineChartStyle {
     private float yLabelMargin = 10f;
 
     private float xLabelMargin = 10f;
+
+    private Border frameBorder = new Border(Border.LEFT, Border.BOTTOM);
+
+    private int frameBorderColor = Color.BLACK;
+
+    private float frameBorderWidth = 4.0f;
 
     public int getLineColor() {
         return lineColor;
@@ -141,5 +189,29 @@ public class LineChartStyle {
 
     public void setXLabelMargin(float xLabelMargin) {
         this.xLabelMargin = xLabelMargin;
+    }
+
+    public Border getFrameBorder() {
+        return frameBorder;
+    }
+
+    public void setFrameBorder(Border frameBorder) {
+        this.frameBorder = frameBorder;
+    }
+
+    public int getFrameBorderColor() {
+        return frameBorderColor;
+    }
+
+    public void setFrameBorderColor(int frameBorderColor) {
+        this.frameBorderColor = frameBorderColor;
+    }
+
+    public float getFrameBorderWidth() {
+        return frameBorderWidth;
+    }
+
+    public void setFrameBorderWidth(float frameBorderWidth) {
+        this.frameBorderWidth = frameBorderWidth;
     }
 }
