@@ -162,6 +162,9 @@ public class DateLineChartView extends View {
     }
 
     private String formatYLabel(long y) {
+        if (lineChartStyle.getYLabelFormatter() != null) {
+            return lineChartStyle.getYLabelFormatter().format(y);
+        }
         return String.format("%,d", y);
     }
 
@@ -221,6 +224,9 @@ public class DateLineChartView extends View {
     }
 
     private String formatXLabel(long x) {
+        if (lineChartStyle.getXLabelFormatter() != null) {
+            return lineChartStyle.getXLabelFormatter().format(x);
+        }
         return DateFormat.format("yyyy/M/d", x).toString();
     }
 

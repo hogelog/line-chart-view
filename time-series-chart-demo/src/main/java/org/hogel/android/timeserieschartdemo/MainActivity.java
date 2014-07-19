@@ -2,11 +2,11 @@ package org.hogel.android.timeserieschartdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.ViewGroup;
-import org.hogel.android.timeserieschart.LineChartStyle;
 import org.hogel.android.timeserieschart.DateLineChartView;
+import org.hogel.android.timeserieschart.LineChartStyle;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,13 +24,19 @@ public class MainActivity extends Activity {
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
         lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.ALL));
+        lineChartStyle.setXLabelFormatter(new LineChartStyle.LabelFormatter() {
+            @Override
+            public String format(long value) {
+                return DateFormat.format("M/d", value).toString();
+            }
+        });
         DateLineChartView chartView = new DateLineChartView(this, generatePoints(), lineChartStyle);
         chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
         chartContainer.addView(chartView);
     }
 
     private List<DateLineChartView.Point> generatePoints() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         List<DateLineChartView.Point> points = new ArrayList<>();
         try {
             points.add(new DateLineChartView.Point(dateFormat.parse("2014/07/01"), 100));

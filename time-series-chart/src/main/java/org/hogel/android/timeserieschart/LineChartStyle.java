@@ -45,6 +45,11 @@ public class LineChartStyle {
         }
     }
 
+
+    public interface LabelFormatter {
+        String format(long value);
+    }
+
     private int lineColor = Color.RED;
 
     private float lineWidth = 8.0f;
@@ -78,6 +83,10 @@ public class LineChartStyle {
     private int frameBorderColor = Color.BLACK;
 
     private float frameBorderWidth = 4.0f;
+
+    private LabelFormatter xLabelFormatter = null;
+
+    private LabelFormatter yLabelFormatter = null;
 
     public int getLineColor() {
         return lineColor;
@@ -213,5 +222,21 @@ public class LineChartStyle {
 
     public void setFrameBorderWidth(float frameBorderWidth) {
         this.frameBorderWidth = frameBorderWidth;
+    }
+
+    public LabelFormatter getXLabelFormatter() {
+        return xLabelFormatter;
+    }
+
+    public void setXLabelFormatter(LabelFormatter xLabelFormatter) {
+        this.xLabelFormatter = xLabelFormatter;
+    }
+
+    public LabelFormatter getYLabelFormatter() {
+        return yLabelFormatter;
+    }
+
+    public void setYLabelFormatter(LabelFormatter yLabelFormatter) {
+        this.yLabelFormatter = yLabelFormatter;
     }
 }
