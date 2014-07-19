@@ -1,4 +1,3 @@
-time-series-chart
-=================
+# line-chart-view
 
-Android chart library for time series data
+Android line chart view library.

@@ -1,1 +1,1 @@
-include ':time-series-chart-demo', ':time-series-chart'
+include ':line-chart-view', ':line-chart-view-demo'
