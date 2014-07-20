@@ -1,10 +1,10 @@
-package org.hogel.android.timeserieschartdemo;
+package org.hogel.android.linechartviewdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import org.hogel.android.timeserieschart.LineChartStyle;
-import org.hogel.android.timeserieschart.LineChartView;
+import org.hogel.android.linechartview.LineChartStyle;
+import org.hogel.android.linechartview.LineChartView;
 
 import java.util.ArrayList;
 import java.util.List;

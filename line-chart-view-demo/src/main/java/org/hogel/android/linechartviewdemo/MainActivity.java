@@ -1,4 +1,4 @@
-package org.hogel.android.timeserieschartdemo;
+package org.hogel.android.linechartviewdemo;
 
 import android.app.Activity;
 import android.content.Intent;

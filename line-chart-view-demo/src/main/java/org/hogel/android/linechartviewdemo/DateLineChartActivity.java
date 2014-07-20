@@ -1,13 +1,13 @@
-package org.hogel.android.timeserieschartdemo;
+package org.hogel.android.linechartviewdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.ViewGroup;
 import com.google.common.collect.Lists;
-import org.hogel.android.timeserieschart.DateLineChartView;
-import org.hogel.android.timeserieschart.LineChartStyle;
-import org.hogel.android.timeserieschart.LineChartView;
+import org.hogel.android.linechartview.DateLineChartView;
+import org.hogel.android.linechartview.LineChartStyle;
+import org.hogel.android.linechartview.LineChartView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

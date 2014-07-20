@@ -1,4 +1,4 @@
-package org.hogel.android.timeserieschart;
+package org.hogel.android.linechartview;
 
 import android.content.Context;
 import android.graphics.Canvas;
