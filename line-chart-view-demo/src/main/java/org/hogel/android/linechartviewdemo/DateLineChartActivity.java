@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.ViewGroup;
-import com.google.common.collect.Lists;
 import org.hogel.android.linechartview.DateLineChartView;
 import org.hogel.android.linechartview.LineChartStyle;
 import org.hogel.android.linechartview.LineChartView;
@@ -25,7 +24,7 @@ public class DateLineChartActivity extends Activity {
 
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
-        lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.ALL));
+        lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.LEFT | LineChartStyle.Border.BOTTOM));
         lineChartStyle.setXLabelFormatter(new LineChartStyle.LabelFormatter() {
             @Override
             public String format(long value) {
@@ -61,6 +60,7 @@ public class DateLineChartActivity extends Activity {
     }
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
     private long date(String date) throws ParseException {
         return dateFormat.parse(date).getTime();
     }

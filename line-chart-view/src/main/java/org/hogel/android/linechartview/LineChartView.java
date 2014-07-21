@@ -213,7 +213,7 @@ public class LineChartView extends View {
             if (textBounds.height() > xLabelHeight) {
                 xLabelHeight = textBounds.height();
             }
-            chartRightMargin = textBounds.width() / 2;
+            chartRightMargin = textBounds.width();
             x += xGridUnit;
         }
     }
@@ -305,7 +305,9 @@ public class LineChartView extends View {
     }
 
     protected long getMinX() {
-        return getRawMinX();
+        long rawMinX = getRawMinX();
+        long step = getUnit(getAbsMaxX());
+        return (long) ((Math.ceil(1.0 * rawMinX / step) - 1) * step);
     }
 
     protected long getRawMinX() {
@@ -313,11 +315,24 @@ public class LineChartView extends View {
     }
 
     protected long getMaxX() {
-        return getRawMaxX();
+        long rawMaxX = getRawMaxX();
+        long step = getUnit(getAbsMaxX());
+        return (long) ((Math.floor(1.0 * rawMaxX / step) + 1) * step);
     }
 
     protected long getRawMaxX() {
         return points.get(points.size() - 1).getX();
+    }
+
+    protected long getAbsMaxX() {
+        long absMaxX = Long.MIN_VALUE;
+        for (Point point : points) {
+            long x = Math.abs(point.getX());
+            if (x > absMaxX) {
+                absMaxX = x;
+            }
+        }
+        return absMaxX;
     }
 
     protected float getXCoordinate(int canvasWidth, Point point, long minX, long xrange) {
@@ -339,14 +354,38 @@ public class LineChartView extends View {
         }
     }
 
+    protected long getAbsMaxY() {
+        long absMaxY = Long.MIN_VALUE;
+        for (Point point : points) {
+            long y = Math.abs(point.getY());
+            if (y > absMaxY) {
+                absMaxY = y;
+            }
+        }
+        return absMaxY;
+    }
+
     protected long getMinY() {
-        return 0;
+        long rawMinY = getRawMinY();
+        long step = getUnit(getAbsMaxY());
+        return (long) ((Math.ceil(1.0 * rawMinY / step) - 1) * step);
+    }
+
+    protected long getRawMinY() {
+        long minY = Long.MAX_VALUE;
+        for (Point point : points) {
+            long y = point.getY();
+            if (y < minY) {
+                minY = y;
+            }
+        }
+        return minY;
     }
 
     protected long getMaxY() {
         long rawMaxY = getRawMaxY();
-        long step = getStep(rawMaxY);
-        return (rawMaxY / step + 1) * step;
+        long step = getUnit(getAbsMaxY());
+        return (long) ((Math.floor(1.0 * rawMaxY / step) + 1) * step);
     }
 
     protected long getRawMaxY() {
@@ -360,9 +399,10 @@ public class LineChartView extends View {
         return maxY;
     }
 
-    protected long getStep(long maxValue) {
-        int digits = String.valueOf(maxValue).length();
-        return (long) Math.pow(10, digits - 1);
+    protected long getUnit(long maxValue) {
+        int digits = (int) Math.log10(maxValue);
+        long unit = (long) Math.pow(10, digits);
+        return unit >= 10 ? unit / 2 : unit;
     }
 
     protected float getYCoordinate(int canvasHeight, Point point, long minY, long yrange) {
@@ -385,8 +425,7 @@ public class LineChartView extends View {
     }
 
     protected void drawXGrid(Canvas canvas, long minX, long xrange) {
-        long rawMinX = getRawMinX();
-        long rawMaxX = getRawMaxX();
+        long maxX = getMaxX();
         long xGridUnit = getXGridUnit();
 
         int canvasWidth = canvas.getWidth();
@@ -398,9 +437,9 @@ public class LineChartView extends View {
         paint.setColor(lineChartStyle.getGridColor());
         paint.setStrokeWidth(lineChartStyle.getGridWidth());
 
-        long x = rawMinX;
+        long x = minX;
 
-        while (x <= rawMaxX) {
+        while (x <= maxX) {
             float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
             canvas.drawLine(xCoordinate, bottom, xCoordinate, top, paint);
             x += xGridUnit;
@@ -420,7 +459,7 @@ public class LineChartView extends View {
         paint.setColor(lineChartStyle.getGridColor());
         paint.setStrokeWidth(lineChartStyle.getGridWidth());
 
-        long y = 0;
+        long y = minY;
         while (y <= maxY) {
             float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
             canvas.drawLine(left, yCoordinate, right, yCoordinate, paint);
@@ -476,9 +515,7 @@ public class LineChartView extends View {
         if (manualXGridUnit != null) {
             return manualXGridUnit;
         }
-        long rawMaxX = getRawMaxX();
-        long xStep = getStep(rawMaxX);
-        return xStep >= 10 ? xStep / 2 : xStep;
+        return getUnit(getAbsMaxX());
     }
 
     public void setYGridUnit(long yGridUnit) {
@@ -490,9 +527,7 @@ public class LineChartView extends View {
         if (manualYGridUnit != null) {
             return manualYGridUnit;
         }
-        long rawMaxY = getRawMaxY();
-        final long yStep = getStep(rawMaxY);
-        return yStep >= 10 ? yStep / 2 : yStep;
+        return getUnit(getAbsMaxY());
     }
 
     public List<Long> getXLabels() {

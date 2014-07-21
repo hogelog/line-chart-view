@@ -78,7 +78,7 @@ public class LineChartStyle {
 
     private float xLabelMargin = 10f;
 
-    private Border frameBorder = new Border(Border.LEFT, Border.BOTTOM);
+    private Border frameBorder = new Border(Border.ALL);
 
     private int frameBorderColor = Color.BLACK;
 

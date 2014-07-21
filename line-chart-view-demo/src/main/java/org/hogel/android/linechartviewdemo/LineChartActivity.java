@@ -20,13 +20,12 @@ public class LineChartActivity extends Activity {
 
         LineChartStyle lineChartStyle = new LineChartStyle();
         LineChartView chartView = new LineChartView(this, generatePoints(), lineChartStyle);
-        chartView.setXGridUnit(1);
         chartContainer.addView(chartView);
     }
 
     private List<LineChartView.Point> generatePoints() {
         List<LineChartView.Point> points = new ArrayList<>();
-        points.add(new LineChartView.Point(3, 100));
+        points.add(new LineChartView.Point(-17, -100));
         points.add(new LineChartView.Point(4, 200));
         points.add(new LineChartView.Point(5, 400));
         points.add(new LineChartView.Point(6, 1100));
