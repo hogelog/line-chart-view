@@ -1,0 +1,12 @@
+language: android
+jdk: openjdk7
+android:
+  components:
+    - build-tools-19.1.0
+    - extra-android-support
+    - extra-android-m2repository
+    - android-19
+  licenses:
+    - '.+'
+script:
+  - ./gradlew clean assemble check
