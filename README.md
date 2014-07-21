@@ -1,4 +1,4 @@
-# line-chart-view
+# line-chart-view  [![Travis CI Status](https://travis-ci.org/hogelog/line-chart-view.svg)](https://travis-ci.org/hogelog/line-chart-view)
 
 Android line chart view library.
 
