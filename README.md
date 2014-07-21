@@ -3,7 +3,8 @@
 Android line chart view library.
 
 ## Usage
-### Gradle
+### Add dependency
+#### Gradle
 
 ```gradle
 dependencies {
@@ -11,7 +12,7 @@ dependencies {
 }
 ```
 
-### Maven
+#### Maven
 
 ```xml
 <dependency>
