@@ -75,6 +75,14 @@ public class LineChartView extends View {
 
     protected List<Long> manualYLabels = null;
 
+    protected Long manualMinX = null;
+
+    protected Long manualMaxX = null;
+
+    protected Long manualMinY = null;
+
+    protected Long manualMaxY = null;
+
     public LineChartView(Context context, List<Point> points) {
         this(context, points, new LineChartStyle());
     }
@@ -304,17 +312,33 @@ public class LineChartView extends View {
         return xLabelHeight + lineChartStyle.getXLabelMargin();
     }
 
-    protected long getMinX() {
+    public void setMinX(long minX) {
+        manualMinX = minX;
+        updateDrawables();
+    }
+
+    public long getMinX() {
+        if (manualMinX != null) {
+            return manualMinX;
+        }
         long rawMinX = getRawMinX();
         long step = getUnit(getAbsMaxX());
         return (long) ((Math.ceil(1.0 * rawMinX / step) - 1) * step);
     }
 
-    protected long getRawMinX() {
+    public long getRawMinX() {
         return points.get(0).getX();
     }
 
-    protected long getMaxX() {
+    public void setMaxX(long maxX) {
+        manualMaxX = maxX;
+        updateDrawables();
+    }
+
+    public long getMaxX() {
+        if (manualMaxX != null) {
+            return manualMaxX;
+        }
         long rawMaxX = getRawMaxX();
         long step = getUnit(getAbsMaxX());
         return (long) ((Math.floor(1.0 * rawMaxX / step) + 1) * step);
@@ -365,13 +389,21 @@ public class LineChartView extends View {
         return absMaxY;
     }
 
-    protected long getMinY() {
+    public void setMinY(long minY) {
+        manualMinY = minY;
+        updateDrawables();
+    }
+
+    public long getMinY() {
+        if (manualMinY != null) {
+            return manualMinY;
+        }
         long rawMinY = getRawMinY();
         long step = getUnit(getAbsMaxY());
         return (long) ((Math.ceil(1.0 * rawMinY / step) - 1) * step);
     }
 
-    protected long getRawMinY() {
+    public long getRawMinY() {
         long minY = Long.MAX_VALUE;
         for (Point point : points) {
             long y = point.getY();
@@ -382,13 +414,21 @@ public class LineChartView extends View {
         return minY;
     }
 
-    protected long getMaxY() {
+    public void setMaxY(long maxY) {
+        manualMaxY = maxY;
+        updateDrawables();
+    }
+
+    public long getMaxY() {
+        if (manualMaxY != null) {
+            return manualMaxY;
+        }
         long rawMaxY = getRawMaxY();
         long step = getUnit(getAbsMaxY());
         return (long) ((Math.floor(1.0 * rawMaxY / step) + 1) * step);
     }
 
-    protected long getRawMaxY() {
+    public long getRawMaxY() {
         long maxY = Long.MIN_VALUE;
         for (Point point : points) {
             long y = point.getY();

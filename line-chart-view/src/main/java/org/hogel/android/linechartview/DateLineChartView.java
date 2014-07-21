@@ -27,15 +27,15 @@ public class DateLineChartView extends LineChartView {
         return DateFormat.format("yyyy/M/d", x).toString();
     }
 
-    protected long getMinX() {
+    public long getMinX() {
         return getRawMinX() - HALF_DAY;
     }
 
-    protected long getMaxX() {
+    public long getMaxX() {
         return getRawMaxX() + HALF_DAY;
     }
 
-    protected long getMinY() {
+    public long getMinY() {
         return 0;
     }
 
