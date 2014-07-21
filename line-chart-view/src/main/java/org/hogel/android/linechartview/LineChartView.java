@@ -8,6 +8,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LineChartView extends View {
@@ -72,7 +73,7 @@ public class LineChartView extends View {
 
     protected List<Long> manualXLabels = null;
 
-    private List<Long> manualYLabels = null;
+    protected List<Long> manualYLabels = null;
 
     public LineChartView(Context context, List<Point> points) {
         this(context, points, new LineChartStyle());
@@ -118,21 +119,11 @@ public class LineChartView extends View {
 
                 int canvasHeight = canvas.getHeight();
 
-                if (manualYLabels != null) {
-                    for (long y : manualYLabels) {
-                        String label = formatYLabel(y);
-                        float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
-                        canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
-                    }
-                } else {
-                    long yGridUnit = getYGridUnit();
-                    long y = minY;
-                    while (y <= maxY) {
-                        String label = formatYLabel(y);
-                        float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
-                        canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
-                        y += yGridUnit;
-                    }
+                List<Long> yLabels = getYLabels();
+                for (long y : yLabels) {
+                    String label = formatYLabel(y);
+                    float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
+                    canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
                 }
             }
         };
@@ -189,20 +180,11 @@ public class LineChartView extends View {
                 int canvasWidth = canvas.getWidth();
                 int canvasHeight = canvas.getHeight();
 
-                if (manualXLabels != null) {
-                    for (long x : manualXLabels) {
-                        String label = formatXLabel(x);
-                        float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
-                        canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
-                    }
-                } else {
-                    long x = getRawMinX();
-                    while (x <= maxX) {
-                        String label = formatXLabel(x);
-                        float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
-                        canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
-                        x += xGridUnit;
-                    }
+                List<Long> xLabels = getXLabels();
+                for (long x : xLabels) {
+                    String label = formatXLabel(x);
+                    float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
+                    canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
                 }
             }
         };
@@ -513,9 +495,43 @@ public class LineChartView extends View {
         return yStep >= 10 ? yStep / 2 : yStep;
     }
 
+    public List<Long> getXLabels() {
+        if (manualXLabels != null) {
+            return manualXLabels;
+        }
+
+        long minX = getMinX();
+        long maxX = getMaxX();
+        long xGridUnit = getXGridUnit();
+        long x = minX;
+        List<Long> xLabels = new ArrayList<>();
+        while (x <= maxX) {
+            xLabels.add(x);
+            x += xGridUnit;
+        }
+        return xLabels;
+    }
+
     public void setXLabels(List<Long> labels) {
         manualXLabels = labels;
         updateDrawables();
+    }
+
+    public List<Long> getYLabels() {
+        if (manualYLabels != null) {
+            return manualYLabels;
+        }
+
+        long minY = getMinY();
+        long maxY = getMaxY();
+        long yGridUnit = getYGridUnit();
+        long y = minY;
+        List<Long> yLabels = new ArrayList<>();
+        while (y <= maxY) {
+            yLabels.add(y);
+            y += yGridUnit;
+        }
+        return yLabels;
     }
 
     public void setYLabels(List<Long> labels) {

@@ -34,8 +34,11 @@ public class DateLineChartActivity extends Activity {
         });
         DateLineChartView chartView = new DateLineChartView(this, generatePoints(), lineChartStyle);
         chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
-        chartView.setYLabels(Lists.newArrayList(500L, 1000L, 1500L, 2000L, 2500L));
         chartContainer.addView(chartView);
+        List<Long> yLabels = chartView.getYLabels();
+        yLabels.remove(0);
+        yLabels.remove(yLabels.size() - 1);
+        chartView.setYLabels(yLabels);
     }
 
     private List<LineChartView.Point> generatePoints() {
