@@ -182,7 +182,6 @@ public class LineChartView extends View {
 
                 long minX = getMinX();
                 long maxX = getMaxX();
-                long xGridUnit = getXGridUnit();
                 long xrange = maxX - minX;
 
                 int canvasWidth = canvas.getWidth();
@@ -321,9 +320,7 @@ public class LineChartView extends View {
         if (manualMinX != null) {
             return manualMinX;
         }
-        long rawMinX = getRawMinX();
-        long step = getUnit(getAbsMaxX());
-        return (long) ((Math.ceil(1.0 * rawMinX / step) - 1) * step);
+        return getRawMinX();
     }
 
     public long getRawMinX() {
@@ -477,7 +474,7 @@ public class LineChartView extends View {
         paint.setColor(lineChartStyle.getGridColor());
         paint.setStrokeWidth(lineChartStyle.getGridWidth());
 
-        long x = minX;
+        long x = calcMinGridValue(minX, xGridUnit);
 
         while (x <= maxX) {
             float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
@@ -499,7 +496,7 @@ public class LineChartView extends View {
         paint.setColor(lineChartStyle.getGridColor());
         paint.setStrokeWidth(lineChartStyle.getGridWidth());
 
-        long y = minY;
+        long y = calcMinGridValue(minY, yGridUnit);
         while (y <= maxY) {
             float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
             canvas.drawLine(left, yCoordinate, right, yCoordinate, paint);
@@ -578,7 +575,7 @@ public class LineChartView extends View {
         long minX = getMinX();
         long maxX = getMaxX();
         long xGridUnit = getXGridUnit();
-        long x = minX;
+        long x = calcMinGridValue(minX, xGridUnit);
         List<Long> xLabels = new ArrayList<>();
         while (x <= maxX) {
             xLabels.add(x);
@@ -600,7 +597,7 @@ public class LineChartView extends View {
         long minY = getMinY();
         long maxY = getMaxY();
         long yGridUnit = getYGridUnit();
-        long y = minY;
+        long y = calcMinGridValue(minY, yGridUnit);
         List<Long> yLabels = new ArrayList<>();
         while (y <= maxY) {
             yLabels.add(y);
@@ -612,5 +609,9 @@ public class LineChartView extends View {
     public void setYLabels(List<Long> labels) {
         manualYLabels = labels;
         updateDrawables();
+    }
+
+    protected long calcMinGridValue(long min, long gridUnit) {
+        return (long) (Math.ceil(1.0 * min / gridUnit) * gridUnit);
     }
 }
