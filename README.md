@@ -40,3 +40,6 @@ dependencies {
 
 ### Example
 See [line-chart-view-demo](https://github.com/hogelog/line-chart-view/tree/master/line-chart-view-demo)
+
+### API
+See [Javadoc](http://hogelog.github.io/line-chart-view/javadoc/)
