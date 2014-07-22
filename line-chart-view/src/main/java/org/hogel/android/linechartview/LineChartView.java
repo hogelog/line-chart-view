@@ -116,6 +116,7 @@ public class LineChartView extends View {
         drawXLabels(xLabelDrawable);
         drawYLabels(yLabelDrawable);
         drawLineChart(chartDrawable);
+        invalidate();
     }
 
     @Override

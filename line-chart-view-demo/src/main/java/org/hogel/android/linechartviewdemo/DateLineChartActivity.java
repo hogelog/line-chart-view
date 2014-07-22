@@ -23,7 +23,6 @@ public class DateLineChartActivity extends Activity {
 
         ViewGroup chartContainer = (ViewGroup) findViewById(R.id.chart_container);
 
-
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
         lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.LEFT | LineChartStyle.Border.BOTTOM));
