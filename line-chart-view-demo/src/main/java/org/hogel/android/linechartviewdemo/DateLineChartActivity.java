@@ -23,6 +23,8 @@ public class DateLineChartActivity extends Activity {
 
         ViewGroup chartContainer = (ViewGroup) findViewById(R.id.chart_container);
 
+        DateLineChartView chartView = new DateLineChartView(this, generatePoints());
+
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
         lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.LEFT | LineChartStyle.Border.BOTTOM));
@@ -33,7 +35,7 @@ public class DateLineChartActivity extends Activity {
             }
         });
         lineChartStyle.setYLabelWidth(80.0f);
-        DateLineChartView chartView = new DateLineChartView(this, generatePoints(), lineChartStyle);
+        chartView.setStyle(lineChartStyle);
         chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
         chartContainer.addView(chartView);
         List<Long> yLabels = chartView.getYLabels();

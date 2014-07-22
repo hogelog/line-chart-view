@@ -57,7 +57,7 @@ public class LineChartView extends View {
 
     protected final ShapeDrawable xLabelDrawable;
 
-    protected final LineChartStyle lineChartStyle;
+    protected LineChartStyle lineChartStyle;
 
     protected Long manualXGridUnit = null;
 
@@ -628,5 +628,14 @@ public class LineChartView extends View {
             return lineChartStyle.getXLabelHeight();
         }
         return xLabelHeight;
+    }
+
+    public LineChartStyle getStyle() {
+        return lineChartStyle;
+    }
+
+    public void setStyle(LineChartStyle lineChartStyle) {
+        this.lineChartStyle = lineChartStyle;
+        updateDrawables();
     }
 }
