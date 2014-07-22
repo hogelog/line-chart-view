@@ -37,12 +37,10 @@ public class DateLineChartView extends LineChartView {
     }
 
     @Override
-    public long getMinX() {
-        return getRawMinX() - HALF_DAY;
-    }
-
-    @Override
     public long getMaxX() {
+        if (manualMaxX != null) {
+            return manualMaxX;
+        }
         return getRawMaxX() + HALF_DAY;
     }
 
@@ -64,6 +62,9 @@ public class DateLineChartView extends LineChartView {
 
     @Override
     public long getMinY() {
+        if (manualMinY != null) {
+            return manualMinY;
+        }
         return 0;
     }
 
@@ -73,5 +74,10 @@ public class DateLineChartView extends LineChartView {
             return manualXGridUnit;
         }
         return A_DAY;
+    }
+
+    @Override
+    protected long calcMinGridValue(long min, long gridUnit) {
+        return min;
     }
 }
