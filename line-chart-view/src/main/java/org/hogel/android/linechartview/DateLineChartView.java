@@ -53,7 +53,7 @@ public class DateLineChartView extends LineChartView {
     }
 
     @Override
-    protected long getRawMaxX() {
+    public long getRawMaxX() {
         if (points.isEmpty()) {
             return (System.currentTimeMillis() / A_DAY) * A_DAY;
         }

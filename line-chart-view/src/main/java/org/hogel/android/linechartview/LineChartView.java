@@ -358,7 +358,7 @@ public class LineChartView extends View {
         return (long) ((Math.floor(1.0 * rawMaxX / step) + 1) * step);
     }
 
-    protected long getRawMaxX() {
+    public long getRawMaxX() {
         if (points.isEmpty()) {
             return DEFAULT_MAX_X;
         }
