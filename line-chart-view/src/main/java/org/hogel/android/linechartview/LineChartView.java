@@ -13,6 +13,10 @@ import java.util.List;
 
 public class LineChartView extends View {
 
+    private static final long DEFAULT_MAX_X = 1000;
+
+    private static final long DEFAULT_MAX_Y = 1000;
+
     public static class Point {
         private long x;
 
@@ -83,8 +87,16 @@ public class LineChartView extends View {
 
     protected Long manualMaxY = null;
 
+    public LineChartView(Context context) {
+        this(context, new ArrayList<Point>());
+    }
+
     public LineChartView(Context context, List<Point> points) {
         this(context, points, new LineChartStyle());
+    }
+
+    public LineChartView(Context context, LineChartStyle lineChartStyle) {
+        this(context, new ArrayList<Point>(), lineChartStyle);
     }
 
     public LineChartView(Context context, List<Point> points, LineChartStyle lineChartStyle) {
@@ -325,6 +337,9 @@ public class LineChartView extends View {
     }
 
     public long getRawMinX() {
+        if (points.isEmpty()) {
+            return 0;
+        }
         return points.get(0).getX();
     }
 
@@ -343,10 +358,16 @@ public class LineChartView extends View {
     }
 
     protected long getRawMaxX() {
+        if (points.isEmpty()) {
+            return DEFAULT_MAX_X;
+        }
         return points.get(points.size() - 1).getX();
     }
 
     protected long getAbsMaxX() {
+        if (points.isEmpty()) {
+            return DEFAULT_MAX_X;
+        }
         long absMaxX = Long.MIN_VALUE;
         for (Point point : points) {
             long x = Math.abs(point.getX());
@@ -377,6 +398,9 @@ public class LineChartView extends View {
     }
 
     protected long getAbsMaxY() {
+        if (points.isEmpty()) {
+            return DEFAULT_MAX_Y;
+        }
         long absMaxY = Long.MIN_VALUE;
         for (Point point : points) {
             long y = Math.abs(point.getY());
@@ -402,6 +426,9 @@ public class LineChartView extends View {
     }
 
     public long getRawMinY() {
+        if (points.isEmpty()) {
+            return 0;
+        }
         long minY = Long.MAX_VALUE;
         for (Point point : points) {
             long y = point.getY();
@@ -427,6 +454,9 @@ public class LineChartView extends View {
     }
 
     public long getRawMaxY() {
+        if (points.isEmpty()) {
+            return DEFAULT_MAX_Y;
+        }
         long maxY = Long.MIN_VALUE;
         for (Point point : points) {
             long y = point.getY();
@@ -636,6 +666,16 @@ public class LineChartView extends View {
 
     public void setStyle(LineChartStyle lineChartStyle) {
         this.lineChartStyle = lineChartStyle;
+        updateDrawables();
+    }
+
+    public List<Point> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<Point> points) {
+        this.points.clear();
+        this.points.addAll(points);
         updateDrawables();
     }
 }
