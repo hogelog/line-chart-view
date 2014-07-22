@@ -4,6 +4,10 @@ import android.graphics.Color;
 
 public class LineChartStyle {
 
+    public static final float AUTO_WIDTH = -1;
+
+    public static final float AUTO_HEIGHT = -1;
+
     public static class Border {
         public static final int LEFT = 1;
 
@@ -75,6 +79,10 @@ public class LineChartStyle {
     private int labelTextColor = Color.BLACK;
 
     private float yLabelMargin = 10f;
+
+    private float yLabelWidth = AUTO_WIDTH;
+
+    private float xLabelHeight = AUTO_HEIGHT;
 
     private float xLabelMargin = 10f;
 
@@ -238,5 +246,21 @@ public class LineChartStyle {
 
     public void setYLabelFormatter(LabelFormatter yLabelFormatter) {
         this.yLabelFormatter = yLabelFormatter;
+    }
+
+    public float getYLabelWidth() {
+        return yLabelWidth;
+    }
+
+    public void setYLabelWidth(float yLabelWidth) {
+        this.yLabelWidth = yLabelWidth;
+    }
+
+    public float getXLabelHeight() {
+        return xLabelHeight;
+    }
+
+    public void setXLabelHeight(float xLabelHeight) {
+        this.xLabelHeight = xLabelHeight;
     }
 }

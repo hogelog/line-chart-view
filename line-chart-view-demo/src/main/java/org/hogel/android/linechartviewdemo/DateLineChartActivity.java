@@ -1,12 +1,13 @@
 package org.hogel.android.linechartviewdemo;
 
+import org.hogel.android.linechartview.DateLineChartView;
+import org.hogel.android.linechartview.LineChartStyle;
+import org.hogel.android.linechartview.LineChartView;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.ViewGroup;
-import org.hogel.android.linechartview.DateLineChartView;
-import org.hogel.android.linechartview.LineChartStyle;
-import org.hogel.android.linechartview.LineChartView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ public class DateLineChartActivity extends Activity {
                 return DateFormat.format("M/d", value).toString();
             }
         });
+        lineChartStyle.setYLabelWidth(80.0f);
         DateLineChartView chartView = new DateLineChartView(this, generatePoints(), lineChartStyle);
         chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
         chartContainer.addView(chartView);

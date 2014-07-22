@@ -127,11 +127,12 @@ public class LineChartView extends View {
 
                 int canvasHeight = canvas.getHeight();
 
+                float left = getYLabelWidth();
                 List<Long> yLabels = getYLabels();
                 for (long y : yLabels) {
                     String label = formatYLabel(y);
                     float yCoordinate = getYCoordinate(canvasHeight, y, minY, yrange);
-                    canvas.drawText(label, yLabelWidth, yCoordinate, labelPaint);
+                    canvas.drawText(label, left, yCoordinate, labelPaint);
                 }
             }
         };
@@ -295,20 +296,20 @@ public class LineChartView extends View {
         }
     }
 
-    protected float getChartLeftMargin() {
-        return yLabelWidth + lineChartStyle.getYLabelMargin();
+    public float getChartLeftMargin() {
+        return getYLabelWidth() + lineChartStyle.getYLabelMargin();
     }
 
-    protected float getChartTopMargin() {
+    public float getChartTopMargin() {
         return chartTopMargin;
     }
 
-    protected float getChartRightMargin() {
+    public float getChartRightMargin() {
         return chartRightMargin;
     }
 
-    protected float getChartBottomMargin() {
-        return xLabelHeight + lineChartStyle.getXLabelMargin();
+    public float getChartBottomMargin() {
+        return getXLabelHeight() + lineChartStyle.getXLabelMargin();
     }
 
     public void setMinX(long minX) {
@@ -613,5 +614,19 @@ public class LineChartView extends View {
 
     protected long calcMinGridValue(long min, long gridUnit) {
         return (long) (Math.ceil(1.0 * min / gridUnit) * gridUnit);
+    }
+
+    public float getYLabelWidth() {
+        if (lineChartStyle.getYLabelWidth() != LineChartStyle.AUTO_WIDTH) {
+            return lineChartStyle.getYLabelWidth();
+        }
+        return yLabelWidth;
+    }
+
+    public float getXLabelHeight() {
+        if (lineChartStyle.getXLabelHeight() != LineChartStyle.AUTO_HEIGHT) {
+            return lineChartStyle.getXLabelHeight();
+        }
+        return xLabelHeight;
     }
 }
