@@ -1,8 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'robolectric'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         minSdkVersion 9
@@ -19,6 +20,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    androidTestCompile 'junit:junit:4.10'
+    androidTestCompile 'org.robolectric:robolectric:2.4-SNAPSHOT'
+    androidTestCompile 'com.squareup:fest-android:1.0.8'
+}
+
+robolectric {
+    include '**/*Test.class'
+
+    maxHeapSize = "2048m"
 }
 
 android.libraryVariants.all { variant ->
