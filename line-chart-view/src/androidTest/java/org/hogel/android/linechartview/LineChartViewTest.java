@@ -20,12 +20,12 @@ public class LineChartViewTest extends ViewTestBase {
     public void createSuccess() {
         LineChartView lineChartView = new LineChartView(activity);
 
-        lineChartView.setMinX(0);
-        lineChartView.setMaxX(1000);
+        lineChartView.setManualMinX(0);
+        lineChartView.setManualMaxX(1000);
         assertThat(lineChartView.getXGridUnit()).isGreaterThan(0);
 
-        lineChartView.setMinY(0);
-        lineChartView.setMaxY(1000);
+        lineChartView.setManualMinY(0);
+        lineChartView.setManualMaxY(1000);
         assertThat(lineChartView.getXGridUnit()).isGreaterThan(0);
     }
 

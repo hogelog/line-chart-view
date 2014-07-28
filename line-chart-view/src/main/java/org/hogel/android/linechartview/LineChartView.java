@@ -325,7 +325,12 @@ public class LineChartView extends View {
         return getXLabelHeight() + lineChartStyle.getXLabelMargin();
     }
 
-    public void setMinX(long minX) {
+    public void clearManualMinX() {
+        manualMinX = null;
+        updateDrawables();
+    }
+
+    public void setManualMinX(long minX) {
         manualMinX = minX;
         updateDrawables();
     }
@@ -344,7 +349,12 @@ public class LineChartView extends View {
         return points.get(0).getX();
     }
 
-    public void setMaxX(long maxX) {
+    public void clearManualMaxX(){
+        manualMaxX = null;
+        updateDrawables();
+    }
+
+    public void setManualMaxX(long maxX) {
         manualMaxX = maxX;
         updateDrawables();
     }
@@ -412,7 +422,12 @@ public class LineChartView extends View {
         return absMaxY;
     }
 
-    public void setMinY(long minY) {
+    public void clearManualMinY() {
+        manualMinY = null;
+        updateDrawables();
+    }
+
+    public void setManualMinY(long minY) {
         manualMinY = minY;
         updateDrawables();
     }
@@ -440,7 +455,12 @@ public class LineChartView extends View {
         return minY;
     }
 
-    public void setMaxY(long maxY) {
+    public void clearManualMaxY() {
+        manualMaxY = null;
+        updateDrawables();
+    }
+
+    public void setManualMaxY(long maxY) {
         manualMaxY = maxY;
         updateDrawables();
     }
