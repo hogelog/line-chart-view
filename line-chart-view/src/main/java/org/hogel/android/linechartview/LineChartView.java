@@ -599,7 +599,12 @@ public class LineChartView extends View {
         }
     }
 
-    public void setXGridUnit(long xGridUnit) {
+    public void clearManualXGridUnit() {
+        manualXGridUnit = null;
+        updateDrawables();
+    }
+
+    public void setManualXGridUnit(long xGridUnit) {
         manualXGridUnit = xGridUnit;
         updateDrawables();
     }
@@ -611,7 +616,12 @@ public class LineChartView extends View {
         return getUnit(getAbsMaxX());
     }
 
-    public void setYGridUnit(long yGridUnit) {
+    public void clearManualYGridUnit() {
+        manualYGridUnit = null;
+        updateDrawables();
+    }
+
+    public void setManualYGridUnit(long yGridUnit) {
         manualYGridUnit = yGridUnit;
         updateDrawables();
     }

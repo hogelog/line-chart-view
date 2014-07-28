@@ -35,7 +35,7 @@ public class DateLineChartActivity extends Activity {
         lineChartStyle.setYLabelWidth(80.0f);
         DateLineChartView chartView = new DateLineChartView(this, lineChartStyle);
         chartView.setStyle(lineChartStyle);
-        chartView.setXGridUnit(2 * 24 * 60 * 60 * 1000);
+        chartView.setManualXGridUnit(2 * 24 * 60 * 60 * 1000);
         chartContainer.addView(chartView);
 
         chartView.setPoints(generatePoints());
