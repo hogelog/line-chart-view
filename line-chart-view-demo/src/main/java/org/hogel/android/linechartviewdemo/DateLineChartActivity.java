@@ -42,7 +42,7 @@ public class DateLineChartActivity extends Activity {
         List<Long> yLabels = chartView.getYLabels();
         yLabels.remove(0);
         yLabels.remove(yLabels.size() - 1);
-        chartView.setYLabels(yLabels);
+        chartView.setManualYLabels(yLabels);
     }
 
     private List<LineChartView.Point> generatePoints() {

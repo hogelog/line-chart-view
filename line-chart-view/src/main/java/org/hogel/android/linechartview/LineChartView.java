@@ -636,7 +636,12 @@ public class LineChartView extends View {
         return xLabels;
     }
 
-    public void setXLabels(List<Long> labels) {
+    public void clearManualXLabels() {
+        manualXLabels = null;
+        updateDrawables();
+    }
+
+    public void setManualXLabels(List<Long> labels) {
         manualXLabels = labels;
         updateDrawables();
     }
@@ -658,7 +663,12 @@ public class LineChartView extends View {
         return yLabels;
     }
 
-    public void setYLabels(List<Long> labels) {
+    public void clearManualYLabels() {
+        manualYLabels = null;
+        updateDrawables();
+    }
+
+    public void setManualYLabels(List<Long> labels) {
         manualYLabels = labels;
         updateDrawables();
     }
