@@ -201,11 +201,14 @@ public class LineChartView extends View {
                 int canvasWidth = canvas.getWidth();
                 int canvasHeight = canvas.getHeight();
 
+                Rect textBounds = new Rect();
                 List<Long> xLabels = getXLabels();
                 for (long x : xLabels) {
                     String label = formatXLabel(x);
+                    labelPaint.getTextBounds(label, 0, label.length(), textBounds);
                     float xCoordinate = getXCoordinate(canvasWidth, x, minX, xrange);
-                    canvas.drawText(label, xCoordinate, canvasHeight, labelPaint);
+                    float height = canvasHeight - lineChartStyle.getXLabelMargin();
+                    canvas.drawText(label, xCoordinate, height, labelPaint);
                 }
             }
         };
@@ -231,10 +234,11 @@ public class LineChartView extends View {
         while (x <= maxX) {
             String label = formatXLabel(x);
             labelPaint.getTextBounds(label, 0, label.length(), textBounds);
-            if (textBounds.height() > xLabelHeight) {
-                xLabelHeight = textBounds.height();
+            int height = (int) (textBounds.height() + lineChartStyle.getXLabelMargin() * 2);
+            if (height > xLabelHeight) {
+                xLabelHeight = height;
             }
-            chartRightMargin = textBounds.width();
+            chartRightMargin = (long) (textBounds.width() + lineChartStyle.getXLabelMargin());
             x += xGridUnit;
         }
     }
