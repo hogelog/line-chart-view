@@ -19,7 +19,7 @@ public class DateLineChartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_chart);
+        setContentView(R.layout.activity_date_chart);
 
         ViewGroup chartContainer = (ViewGroup) findViewById(R.id.chart_container);
 

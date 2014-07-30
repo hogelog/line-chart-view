@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
+import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -89,6 +90,23 @@ public class LineChartView extends View {
 
     public LineChartView(Context context) {
         this(context, new ArrayList<Point>());
+    }
+
+    public LineChartView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        points = new ArrayList<>();
+        lineChartStyle = new LineChartStyle();
+
+        paint.setAntiAlias(true);
+
+        yLabelDrawable = new ShapeDrawable();
+        xLabelDrawable = new ShapeDrawable();
+
+        chartDrawable = new ShapeDrawable();
+
+        updateIfEditMode();
+        updateDrawables();
     }
 
     public LineChartView(Context context, List<Point> points) {
@@ -722,5 +740,18 @@ public class LineChartView extends View {
         this.points.clear();
         this.points.addAll(points);
         updateDrawables();
+    }
+
+    private void updateIfEditMode() {
+        if (!isInEditMode()) {
+            return;
+        }
+        List<Point> points = new ArrayList<>();
+        points.add(new LineChartView.Point(-17, -100));
+        points.add(new LineChartView.Point(4, 200));
+        points.add(new LineChartView.Point(5, 400));
+        points.add(new LineChartView.Point(6, 1100));
+        points.add(new LineChartView.Point(7, 700));
+        setPoints(points);
     }
 }
