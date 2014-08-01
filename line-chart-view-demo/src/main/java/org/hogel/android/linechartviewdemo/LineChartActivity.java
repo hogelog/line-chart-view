@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LineChartActivity extends Activity {
-    private static final double MAX_Y = 1000;
+    private static final double MAX_Y = 100;
     private LineChartView chartView;
 
     @Override
@@ -31,7 +31,7 @@ public class LineChartActivity extends Activity {
 
     private void nextChartData() {
         List<LineChartView.Point> points = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             int y = (int) (Math.random() * MAX_Y);
             points.add(new LineChartView.Point(i, y));
         }
