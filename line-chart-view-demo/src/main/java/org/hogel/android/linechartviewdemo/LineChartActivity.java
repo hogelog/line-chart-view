@@ -2,29 +2,39 @@ package org.hogel.android.linechartviewdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import org.hogel.android.linechartview.LineChartView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LineChartActivity extends Activity {
+    private static final double MAX_Y = 100;
+    private LineChartView chartView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_chart);
 
-        LineChartView chartView  = (LineChartView) findViewById(R.id.chart_view);
-        chartView.setPoints(generatePoints());
+        chartView  = (LineChartView) findViewById(R.id.chart_view);
+
+        View nextButton = findViewById(R.id.next_data);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextChartData();
+            }
+        });
     }
 
-    private List<LineChartView.Point> generatePoints() {
+    private void nextChartData() {
         List<LineChartView.Point> points = new ArrayList<>();
-        points.add(new LineChartView.Point(-17, -100));
-        points.add(new LineChartView.Point(4, 200));
-        points.add(new LineChartView.Point(5, 400));
-        points.add(new LineChartView.Point(6, 1100));
-        points.add(new LineChartView.Point(7, 700));
-        return points;
+        for (int i = 0; i < 5; i++) {
+            int y = (int) (Math.random() * MAX_Y);
+            points.add(new LineChartView.Point(i, y));
+        }
+        chartView.setPoints(points);
     }
 }
