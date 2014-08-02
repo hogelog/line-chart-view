@@ -513,7 +513,7 @@ public class LineChartView extends View {
     protected long getUnit(long maxValue) {
         int digits = (int) Math.log10(maxValue);
         long unit = (long) Math.pow(10, digits);
-        return unit >= 10 ? unit / 2 : unit;
+        return unit;
     }
 
     protected float getYCoordinate(float height, Point point, long minY, long yrange) {

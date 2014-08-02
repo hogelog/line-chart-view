@@ -19,6 +19,7 @@ public class LineChartActivity extends Activity {
         setContentView(R.layout.activity_chart);
 
         chartView  = (LineChartView) findViewById(R.id.chart_view);
+        chartView.setManualMinY(0);
 
         View nextButton = findViewById(R.id.next_data);
         nextButton.setOnClickListener(new View.OnClickListener() {
