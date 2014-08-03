@@ -54,7 +54,7 @@ public class LineChartView extends View {
 
     protected final Paint labelPaint = new Paint();
 
-    protected final Paint framePaint = new Paint();
+    protected final Paint borderPaint = new Paint();
 
     protected final ShapeDrawable chartDrawable;
 
@@ -292,7 +292,10 @@ public class LineChartView extends View {
                 drawXGrid(canvas, minX, xrange);
                 drawYGrid(canvas, minY, yrange);
 
-                drawChartFrameBorder(canvas, left, top, right, bottom);
+                List<LineChartStyle.Border> borders = lineChartStyle.getBorders();
+                for (LineChartStyle.Border border : borders) {
+                    drawChartBorder(canvas, border, left, top, right, bottom);
+                }
 
                 drawLines(canvas, minX, xrange, minY, yrange);
 
@@ -312,22 +315,26 @@ public class LineChartView extends View {
         canvas.restore();
     }
 
-    protected void drawChartFrameBorder(Canvas canvas, float left, float top, float right, float bottom) {
-        framePaint.setColor(lineChartStyle.getFrameBorderColor());
-        framePaint.setStrokeWidth(lineChartStyle.getFrameBorderWidth());
+    protected void drawChartBorder(Canvas canvas, LineChartStyle.Border border, float left, float top, float right, float bottom) {
+        borderPaint.setColor(border.getColor());
+        borderPaint.setStrokeWidth(border.getWidth());
 
-        LineChartStyle.Border border = lineChartStyle.getFrameBorder();
+        float fixWidth = border.getWidth() / 2;
+        float leftFix = border.left() ? fixWidth : 0;
+        float topFix = border.top() ? fixWidth : 0;
+        float bottomFix = border.bottom() ? fixWidth : 0;
+        float rightFix = border.right() ? fixWidth : 0;
         if (border.left()) {
-            canvas.drawLine(left, top, left, bottom, framePaint);
+            canvas.drawLine(left, top - topFix, left, bottom + bottomFix, borderPaint);
         }
         if (border.top()) {
-            canvas.drawLine(left, top, right, top, framePaint);
+            canvas.drawLine(left - leftFix, top, right + rightFix, top, borderPaint);
         }
         if (border.right()) {
-            canvas.drawLine(right, top, right, bottom, framePaint);
+            canvas.drawLine(right, top - topFix, right, bottom + bottomFix, borderPaint);
         }
         if (border.bottom()) {
-            canvas.drawLine(left, bottom, right, bottom, framePaint);
+            canvas.drawLine(left - leftFix, bottom, right + rightFix, bottom, borderPaint);
         }
     }
 

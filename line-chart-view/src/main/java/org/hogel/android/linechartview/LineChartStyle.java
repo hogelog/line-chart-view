@@ -2,6 +2,9 @@ package org.hogel.android.linechartview;
 
 import android.graphics.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LineChartStyle {
 
     public static final float AUTO_WIDTH = -1;
@@ -20,6 +23,10 @@ public class LineChartStyle {
         public static final int ALL = LEFT | TOP | RIGHT | BOTTOM;
 
         private int style;
+
+        private int color = Color.GRAY;
+
+        private float width = 4.0f;
 
         public Border(int... values) {
             style = 0;
@@ -46,6 +53,22 @@ public class LineChartStyle {
 
         public boolean bottom() {
             return contains(BOTTOM);
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public float getWidth() {
+            return width;
+        }
+
+        public void setWidth(float width) {
+            this.width = width;
         }
     }
 
@@ -86,15 +109,15 @@ public class LineChartStyle {
 
     private float xLabelMargin = 10f;
 
-    private Border frameBorder = new Border(Border.ALL);
-
-    private int frameBorderColor = Color.BLACK;
-
-    private float frameBorderWidth = 4.0f;
+    private final List<Border> borders = new ArrayList<>();
 
     private LabelFormatter xLabelFormatter = null;
 
     private LabelFormatter yLabelFormatter = null;
+
+    public LineChartStyle() {
+        borders.add(new Border(Border.ALL));
+    }
 
     public int getLineColor() {
         return lineColor;
@@ -208,28 +231,16 @@ public class LineChartStyle {
         this.xLabelMargin = xLabelMargin;
     }
 
-    public Border getFrameBorder() {
-        return frameBorder;
+    public List<Border> getBorders() {
+        return borders;
     }
 
-    public void setFrameBorder(Border frameBorder) {
-        this.frameBorder = frameBorder;
+    public void addBorder(Border border) {
+        borders.add(border);
     }
 
-    public int getFrameBorderColor() {
-        return frameBorderColor;
-    }
-
-    public void setFrameBorderColor(int frameBorderColor) {
-        this.frameBorderColor = frameBorderColor;
-    }
-
-    public float getFrameBorderWidth() {
-        return frameBorderWidth;
-    }
-
-    public void setFrameBorderWidth(float frameBorderWidth) {
-        this.frameBorderWidth = frameBorderWidth;
+    public void clearBorders() {
+        borders.clear();
     }
 
     public LabelFormatter getXLabelFormatter() {

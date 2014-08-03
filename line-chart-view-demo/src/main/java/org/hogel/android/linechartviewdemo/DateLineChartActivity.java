@@ -25,7 +25,11 @@ public class DateLineChartActivity extends Activity {
 
         LineChartStyle lineChartStyle = new LineChartStyle();
         lineChartStyle.setDrawPointCenter(false);
-        lineChartStyle.setFrameBorder(new LineChartStyle.Border(LineChartStyle.Border.LEFT | LineChartStyle.Border.BOTTOM));
+        LineChartStyle.Border leftBottomBorder = new LineChartStyle.Border(
+            LineChartStyle.Border.LEFT, LineChartStyle.Border.BOTTOM
+        );
+        leftBottomBorder.setWidth(8.0f);
+        lineChartStyle.addBorder(leftBottomBorder);
         lineChartStyle.setXLabelFormatter(new LineChartStyle.LabelFormatter() {
             @Override
             public String format(long value) {
