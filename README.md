@@ -8,7 +8,7 @@ Android line chart view library.
 
 ```gradle
 dependencies {
-    compile 'org.hogel:line-chart-view:0.1.6'
+    compile 'org.hogel:line-chart-view:0.1.7'
 }
 ```
 
@@ -18,7 +18,7 @@ dependencies {
 <dependency>
     <groupId>org.hogel</groupId>
     <artifactId>line-chart-view</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
 </dependency>
 ```
 
@@ -54,6 +54,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.hogel:line-chart-view:0.1.7-SNAPSHOT'
+    compile 'org.hogel:line-chart-view:0.1.8-SNAPSHOT'
 }
 ```
