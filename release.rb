@@ -22,7 +22,7 @@ File.write("gradle.properties", gradle_properties)
 
 system("git commit -a -m 'Release #{version_name}'") || exit(1)
 system("git tag #{version_name}") || exit(1)
-system("cd line-chart-view && ../gradlew clean uploadArchives")
+system("cd line-chart-view && ../gradlew clean uploadArchives") || exit(1)
 
 print "Type next version: "
 next_version = STDIN.readline.chomp
@@ -38,4 +38,6 @@ readme.gsub!(/org.hogel:line-chart-view:\d+\.\d+\.\d+-SNAPSHOT/, "org.hogel:line
 File.write("README.md", readme)
 
 system("git commit -a -m 'Next version #{next_version}'") || exit(1)
-system("cd line-chart-view && ../gradlew clean uploadArchives")
+system("cd line-chart-view && ../gradlew clean uploadArchives") || exit(1)
+
+system("git push --tags") || exit(1)
