@@ -1,14 +1,12 @@
 #!/usr/bin/env ruby
-require 'pry'
 gradle_properties = File.read("gradle.properties")
 
-#unless gradle_properties =~ /^VERSION_NAME=(.+)-SNAPSHOT$/
-#  STDERR.puts "Invalid VERSION_NAME"
-#  exit 1
-#end
-#
-#version_name = $1
-version_name = "0.1.6"
+unless gradle_properties =~ /^VERSION_NAME=(.+)-SNAPSHOT$/
+  STDERR.puts "Invalid VERSION_NAME"
+  exit 1
+end
+
+version_name = $1
 version_snapshot = "#{version_name}-SNAPSHOT"
 
 unless gradle_properties =~ /^VERSION_CODE=(\d+)$/
@@ -18,13 +16,13 @@ end
 
 version_code = $1.to_i
 
-#gradle_properties.gsub!("#{version_name}-SNAPSHOT", version_name)
+gradle_properties.gsub!("#{version_name}-SNAPSHOT", version_name)
 
-#File.write("gradle.properties", gradle_properties)
+File.write("gradle.properties", gradle_properties)
 
-#system("git commit -a -m 'Release #{version_name}'") || exit(1)
-#system("git tag #{version_name}") || exit(1)
-#system("cd line-chart-view && ../gradlew clean uploadArchives")
+system("git commit -a -m 'Release #{version_name}'") || exit(1)
+system("git tag #{version_name}") || exit(1)
+system("cd line-chart-view && ../gradlew clean uploadArchives")
 
 print "Type next version: "
 next_version = STDIN.readline.chomp
