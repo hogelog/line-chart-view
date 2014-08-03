@@ -219,13 +219,13 @@ public class LineChartView extends View {
                 float width = getWidth();
                 float height = getHeight();
 
+                float labelHeight = height - lineChartStyle.getXLabelMargin();
                 Rect textBounds = new Rect();
                 List<Long> xLabels = getXLabels();
                 for (long x : xLabels) {
                     String label = formatXLabel(x);
                     labelPaint.getTextBounds(label, 0, label.length(), textBounds);
                     float xCoordinate = getXCoordinate(width, x, minX, xrange);
-                    float labelHeight = height - lineChartStyle.getXLabelMargin();
                     canvas.drawText(label, xCoordinate, labelHeight, labelPaint);
                 }
             }
@@ -256,7 +256,7 @@ public class LineChartView extends View {
             if (height > xLabelHeight) {
                 xLabelHeight = height;
             }
-            chartRightMargin = (long) (textBounds.width() + lineChartStyle.getXLabelMargin());
+            chartRightMargin = textBounds.width() / 2;
             x += xGridUnit;
         }
     }
