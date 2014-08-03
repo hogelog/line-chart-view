@@ -26,7 +26,7 @@ public class LineChartStyle {
 
         private int color = Color.GRAY;
 
-        private float width = 4.0f;
+        private float width = 1.0f;
 
         public Border(int... values) {
             style = 0;
