@@ -1,4 +1,5 @@
-# line-chart-view  [![Travis CI Status](https://travis-ci.org/hogelog/line-chart-view.svg)](https://travis-ci.org/hogelog/line-chart-view)
+# line-chart-view  [![Travis CI Status](https://travis-ci.org/hogelog/line-chart-view.svg)](https://travis-ci.org/hogelog/line-chart-view) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.hogel/line-chart-view/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.hogel/line-chart-view)
+
 
 Android line chart view library.
 
