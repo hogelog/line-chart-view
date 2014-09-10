@@ -7,7 +7,7 @@ Android line chart view library.
 ### Add dependency
 #### Gradle
 
-```gradle
+```groovy
 dependencies {
     compile 'org.hogel:line-chart-view:0.1.7'
 }
@@ -49,7 +49,7 @@ See [Javadoc](http://hogelog.github.io/line-chart-view/javadoc/)
 ## Development version
 Use sonatype snapshot repository.
 
-```gradle
+```groovy
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
