@@ -239,7 +239,7 @@ public class LineChartView extends View {
         labelPaint.setTextAlign(Paint.Align.CENTER);
         labelPaint.setTextSize(lineChartStyle.getLabelTextSize());
 
-        long minX = getRawMinX();
+        long minX = getMinX();
         long maxX = getMaxX();
         long xGridUnit = getXGridUnit();
 
