@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'robolectric'
+apply plugin: 'org.robolectric'
 
 android {
     compileSdkVersion 19
@@ -21,12 +21,12 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    androidTestCompile 'junit:junit:4.10'
-    androidTestCompile 'org.robolectric:robolectric:2.4'
-    androidTestCompile 'com.squareup:fest-android:1.0.8'
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.4'
+    testCompile 'com.squareup:fest-android:1.0.8'
 }
 
-robolectric {
+android.testOptions.unitTests.all {
     include '**/*Test.class'
 
     maxHeapSize = "2048m"
