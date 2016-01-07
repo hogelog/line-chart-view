@@ -3,7 +3,8 @@ package org.hogel.android.linechartview;
 import org.junit.Test;
 import org.robolectric.annotation.Config;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @Config(constants = BuildConfig.class)
 public class LineChartViewTest extends ViewTestBase {
@@ -22,14 +23,14 @@ public class LineChartViewTest extends ViewTestBase {
 
         lineChartView.setManualMinY(0);
         lineChartView.setManualMaxY(1000);
-        assertThat(lineChartView.getXGridUnit()).isGreaterThan(0);
+        assertThat(lineChartView.getYGridUnit()).isGreaterThan(0);
     }
 
     @Test
     public void createFailure() {
         try {
             new LineChartView(null);
-            assertThat(true).isFalse();
+            fail("Invalid context value null");
         } catch (Exception e) {
         }
     }
