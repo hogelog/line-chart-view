@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.hogel.android.linechartview">
+
+    <application
+            android:allowBackup="true"
+            />
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="19"
+        />
+</manifest>

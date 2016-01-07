@@ -3,14 +3,10 @@ package org.hogel.android.linechartview;
 import org.junit.Test;
 import org.robolectric.annotation.Config;
 
-import java.util.List;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 
-@Config(emulateSdk = 18)
+@Config(constants = BuildConfig.class)
 public class LineChartViewTest extends ViewTestBase {
-    private List<LineChartView.Point> points;
-
     @Override
     public void setUp() throws Exception {
         super.setUp();
