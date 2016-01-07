@@ -21,9 +21,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.4'
-    testCompile 'com.squareup:fest-android:1.0.8'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
 android.testOptions.unitTests.all {
