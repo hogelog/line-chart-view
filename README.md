@@ -9,7 +9,7 @@ Android line chart view library.
 
 ```groovy
 dependencies {
-    compile 'org.hogel:line-chart-view:0.1.8'
+    compile 'org.hogel:line-chart-view:0.2.0'
 }
 ```
 
@@ -19,7 +19,7 @@ dependencies {
 <dependency>
     <groupId>org.hogel</groupId>
     <artifactId>line-chart-view</artifactId>
-    <version>0.1.8</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -55,6 +55,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.hogel:line-chart-view:0.1.9-SNAPSHOT'
+    compile 'org.hogel:line-chart-view:0.2.1-SNAPSHOT'
 }
 ```

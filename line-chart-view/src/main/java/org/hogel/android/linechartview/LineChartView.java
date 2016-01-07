@@ -52,7 +52,7 @@ public class LineChartView extends View {
 
     protected final Paint paint = new Paint();
 
-    protected final Paint labelPaint = new Paint();
+    protected final Paint labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     protected final Paint borderPaint = new Paint();
 
